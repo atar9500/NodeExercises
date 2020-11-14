@@ -2,7 +2,7 @@ import fs from 'fs';
 import { filter, size } from 'lodash';
 import { dirname } from 'path';
 import { Item } from '~/common/models';
-import { generateId } from './generateId';
+import { v4 as generateId } from 'uuid';
 
 const BASE_URL = './src/assets';
 
@@ -31,7 +31,8 @@ const readFromFile = async (filePath: string, defaultValue?: any): Promise<Asset
   return JSON.parse(json.toString('utf8'));
 };
 
-export const getItems = async (filePath: string): Promise<AssetType[]> => await readFromFile(filePath, []);
+export const getItems = async (filePath: string): Promise<AssetType[]> =>
+  await readFromFile(filePath, []);
 
 export const getItemByField = async (filePath: string, params: object): Promise<any[]> => {
   const items = await getItems(filePath);
@@ -50,7 +51,10 @@ export const addItem = async (filePath: string, params: AssetType): Promise<void
   await saveToFile(filePath, [...items, item]);
 };
 
-export const editItem = async (filePath: string, modifiedItem: AssetType): Promise<AssetType[] | undefined> => {
+export const editItem = async (
+  filePath: string,
+  modifiedItem: AssetType,
+): Promise<AssetType[] | undefined> => {
   const items = await getItems(filePath);
 
   let exists = false;
@@ -69,7 +73,10 @@ export const editItem = async (filePath: string, modifiedItem: AssetType): Promi
   }
 };
 
-export const deleteItem = async (filePath: string, id: string): Promise<AssetType[] | undefined> => {
+export const deleteItem = async (
+  filePath: string,
+  id: string,
+): Promise<AssetType[] | undefined> => {
   const items = await getItems(filePath);
   const updatedItems = items.filter((item) => item.id !== id);
 

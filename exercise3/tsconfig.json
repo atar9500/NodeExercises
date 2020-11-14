@@ -12,12 +12,13 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "dist",
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "*": [
         "node_modules/*",
         "src/types/*"
-      ]
+      ],
+      "~/*": ["src/*"],
     },
     "resolveJsonModule": true,
     "sourceMap": true,

@@ -1,10 +1,11 @@
 import fs from 'fs';
-import { filter, isEmpty, size } from 'lodash';
+import { filter, size } from 'lodash';
 import { dirname } from 'path';
 import { StoreItem } from '~/common/models';
 import { v4 as generateId } from 'uuid';
 
-const BASE_URL = './src/assets';
+const BASE_URL = './src/common/assets';
+export const NOT_FOUND = 404;
 
 const saveToFile = async (filePath: string, data: any): Promise<void> => {
   const json = JSON.stringify(data, null, 2);
@@ -52,7 +53,7 @@ export const getItem = async (
   if (item) {
     return item;
   } else {
-    throw { status: 404 };
+    throw NOT_FOUND;
   }
 };
 
@@ -87,7 +88,7 @@ export const editItem = async (
     await saveToFile(filePath, updatedItems);
     return modifiedItem;
   } else {
-    throw { status: 404 };
+    throw NOT_FOUND;
   }
 };
 
@@ -103,6 +104,6 @@ export const deleteItem = async (
     await saveToFile(filePath, updatedItems);
     return updatedItems;
   } else {
-    throw { status: 404 };
+    throw NOT_FOUND;
   }
 };

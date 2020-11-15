@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Awesome Product !",
+    "categoryId": "11009872-0dde-46fc-800f-bdaa2757a66c",
+    "itemsInStock": 1,
+    "id": "1e29015d-403b-4601-8ace-72d8ddbf8f27"
+  },
+  {
+    "name": "Cool thing!12312333!!",
+    "categoryId": "43aa5afe-2449-440c-ad5f-0d2674c7eef0",
+    "itemsInStock": 1,
+    "id": "5a9cb44e-4ecb-4abf-b1b0-a00d0e78ae03"
+  }
+]

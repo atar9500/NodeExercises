@@ -11,19 +11,25 @@ export const logErrors = (
 };
 
 export const clientErrorHandler = (
-  err: Error,
+  error: any,
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  if (!req.xhr) {
-    res.status(500).send({ error: 'Something went wrong!' });
+  if (!req.xhr && error.status) {
+    res.status(error.status).send({ error: error.message });
   } else {
-    next(err);
+    next(error);
   }
 };
 
-export const errorHandler = (err: Error, req: Request, res: Response) => {
-  res.status(500);
-  res.render('error', { error: err });
+export const errorHandler = (
+  error: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  console.log('res', res);
+
+  res.status(500).render('error', { error });
 };

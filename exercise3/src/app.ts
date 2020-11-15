@@ -6,7 +6,7 @@ import {
   errorHandler,
   logErrors,
   logHandler,
-} from './middlewares';
+} from './common/middlewares';
 
 const app = express();
 

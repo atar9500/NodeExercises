@@ -21,6 +21,7 @@ router.get('/:id', idHandler, async (req, res, next) => {
 
 router.get('/:id/products', idHandler, async (req, res, next) => {
   try {
+    await categoriesStore.findCategory(req.params.id);
     const products = await productsStore.getProductsByCategoryId(req.params.id);
     res.status(200).send(products);
   } catch (e) {
@@ -49,7 +50,10 @@ router.put('/:id', idHandler, async (req, res, next) => {
 
 router.delete('/:id', idHandler, async (req, res, next) => {
   try {
-    const categories = await categoriesStore.deleteCategory(req.params.id);
+    const id = req.params.id;
+    await categoriesStore.findCategory(id);
+    await productsStore.deleteProductsByCategoryId(id);
+    const categories = await categoriesStore.deleteCategory(id);
     res.status(200).send(categories);
   } catch (e) {
     next(e);

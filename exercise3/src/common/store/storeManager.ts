@@ -107,3 +107,18 @@ export const deleteItem = async (
     throw NOT_FOUND;
   }
 };
+
+export const deleteItemsByField = async (
+  filePath: string,
+  params: object,
+): Promise<StoreItem[]> => {
+  const items = await getItems(filePath);
+  const itemIds = filter(items, params).map(({ id }) => id);
+  const updatedItems = items.filter(({ id }) => !itemIds.includes(id));
+
+  const hasChanged = size(items) !== size(updatedItems);
+  if (hasChanged) {
+    await saveToFile(filePath, updatedItems);
+  }
+  return updatedItems;
+};

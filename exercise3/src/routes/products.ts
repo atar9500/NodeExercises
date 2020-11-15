@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { ProductParams } from '~/common/models';
-import { productsStore } from '~/common/store';
+import { categoriesStore, productsStore } from '~/common/store';
 import { idHandler, nameHandler } from '~/common/middlewares';
 
 const router = Router();
@@ -22,6 +22,7 @@ router.get('/:id', idHandler, async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const params: ProductParams = req.body;
+    await categoriesStore.findCategory(params.categoryId);
     const product = await productsStore.addProduct(params);
     res.status(201).send(product);
   } catch (e) {
@@ -32,6 +33,7 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', idHandler, nameHandler, async (req, res, next) => {
   try {
     const params: ProductParams = req.body;
+    await categoriesStore.findCategory(params.categoryId);
     const product = await productsStore.editProduct({
       ...params,
       id: req.params.id,

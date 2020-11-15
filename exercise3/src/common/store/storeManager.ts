@@ -1,15 +1,13 @@
 import fs from 'fs';
-import { filter, size } from 'lodash';
+import { filter, isEmpty, size } from 'lodash';
 import { dirname } from 'path';
-import { Item } from '~/common/models';
+import { StoreItem } from '~/common/models';
 import { v4 as generateId } from 'uuid';
 
 const BASE_URL = './src/assets';
 
-type AssetType = Item & any;
-
 const saveToFile = async (filePath: string, data: any): Promise<void> => {
-  const json = JSON.stringify(data);
+  const json = JSON.stringify(data, null, 2);
   const path = `${BASE_URL}/${filePath}`;
 
   const dir = dirname(path);
@@ -18,7 +16,10 @@ const saveToFile = async (filePath: string, data: any): Promise<void> => {
   await fs.promises.writeFile(path, json);
 };
 
-const readFromFile = async (filePath: string, defaultValue?: any): Promise<AssetType[]> => {
+const readFromFile = async (
+  filePath: string,
+  defaultValue?: any,
+): Promise<StoreItem[]> => {
   const path = `${BASE_URL}/${filePath}`;
 
   try {
@@ -31,30 +32,45 @@ const readFromFile = async (filePath: string, defaultValue?: any): Promise<Asset
   return JSON.parse(json.toString('utf8'));
 };
 
-export const getItems = async (filePath: string): Promise<AssetType[]> =>
+export const getItems = async (filePath: string): Promise<StoreItem[]> =>
   await readFromFile(filePath, []);
 
-export const getItemByField = async (filePath: string, params: object): Promise<any[]> => {
+export const getItemByField = async (
+  filePath: string,
+  params: object,
+): Promise<StoreItem[]> => {
   const items = await getItems(filePath);
   return filter(items, params);
 };
 
-export const getItem = async (filePath: string, id: string): Promise<any | undefined> => {
+export const getItem = async (
+  filePath: string,
+  id: string,
+): Promise<StoreItem | undefined> => {
   const items = await getItems(filePath);
-  return items.find((item) => item.id === id);
+  const item = items.find((item) => item.id === id);
+  if (item) {
+    return item;
+  } else {
+    throw { status: 404 };
+  }
 };
 
-export const addItem = async (filePath: string, params: AssetType): Promise<void> => {
+export const addItem = async (
+  filePath: string,
+  params: Omit<StoreItem, 'id'>,
+): Promise<StoreItem> => {
   const item = { ...params, id: generateId() };
   const items = await getItems(filePath);
 
   await saveToFile(filePath, [...items, item]);
+  return item;
 };
 
 export const editItem = async (
   filePath: string,
-  modifiedItem: AssetType,
-): Promise<AssetType[] | undefined> => {
+  modifiedItem: StoreItem,
+): Promise<StoreItem> => {
   const items = await getItems(filePath);
 
   let exists = false;
@@ -69,14 +85,16 @@ export const editItem = async (
 
   if (exists) {
     await saveToFile(filePath, updatedItems);
-    return updatedItems;
+    return modifiedItem;
+  } else {
+    throw { status: 404 };
   }
 };
 
 export const deleteItem = async (
   filePath: string,
   id: string,
-): Promise<AssetType[] | undefined> => {
+): Promise<StoreItem[]> => {
   const items = await getItems(filePath);
   const updatedItems = items.filter((item) => item.id !== id);
 
@@ -84,5 +102,7 @@ export const deleteItem = async (
   if (exists) {
     await saveToFile(filePath, updatedItems);
     return updatedItems;
+  } else {
+    throw { status: 404 };
   }
 };

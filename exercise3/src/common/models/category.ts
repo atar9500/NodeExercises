@@ -1,5 +1,5 @@
-import { Item } from './item';
-
-export interface Category extends Item {
+export interface CategoryParams {
   name: string;
 }
+
+export type Category = CategoryParams & { id: string };

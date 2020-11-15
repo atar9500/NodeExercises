@@ -1,7 +1,7 @@
-import { Item } from './item';
-
-export interface Product extends Item {
+export interface ProductParams {
   categoryId: string;
   name: string;
   itemsInStock: number;
 }
+
+export type Product = ProductParams & { id: string };

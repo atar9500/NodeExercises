@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Phones",
+    "id": "23347103-ba50-4cb3-a62a-aacc6a53f4b8"
+  },
+  {
+    "name": "Televisions",
+    "id": "43aa5afe-2449-440c-ad5f-0d2674c7eef0"
+  },
+  {
+    "name": "Kitchen Items",
+    "id": "10cb88cf-f265-4ccb-bd2c-1a24ca8027a2"
+  },
+  {
+    "name": "Other Stuff",
+    "id": "1b476f34-6ead-4e0c-aa25-60f036e65755"
+  },
+  {
+    "name": "Awesome Stuff!",
+    "id": "11009872-0dde-46fc-800f-bdaa2757a66c"
+  }
+]

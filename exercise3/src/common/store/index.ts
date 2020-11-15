@@ -1,2 +1,2 @@
-export * as productsStore from './products';
-export * as categoriesStore from './categories';
+export * as productsStore from './productsStore';
+export * as categoriesStore from './categoriesStore';

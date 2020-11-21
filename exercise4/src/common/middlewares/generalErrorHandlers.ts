@@ -6,7 +6,9 @@ export const logErrors = (
   res: Response,
   next: NextFunction,
 ) => {
-  console.error(err.stack);
+  if (err?.stack) {
+    console.error(err.stack);
+  }
   next(err);
 };
 

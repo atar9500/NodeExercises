@@ -6,6 +6,7 @@ import {
   logErrors,
   logHandler,
 } from '~/common/middlewares';
+import {categoriesRouter, productsRouter} from '~/routes';
 
 const app = express();
 
@@ -13,6 +14,9 @@ app.use(express.json());
 app.use(cors());
 
 app.use(logHandler);
+
+app.use('/products', productsRouter);
+app.use('/categories', categoriesRouter);
 
 app.use(logErrors);
 app.use(clientErrorHandler);

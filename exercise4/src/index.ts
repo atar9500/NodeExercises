@@ -1,3 +1,11 @@
-const i = 2;
+import app from '~/app';
 
-console.log('hello', i);
+app.set('port', process.env.PORT || 8000);
+
+app.listen(app.get('port'), () => {
+  console.log(
+    `Exercise 4 is running at http://localhost:${app.get('port')} in ${app.get(
+      'env',
+    )} mode`,
+  );
+});
